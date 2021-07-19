@@ -19,5 +19,8 @@
   "homepage": "https://github.com/kyledoidge/learn-tape#readme",
   "devDependencies": {
     "tape": "^5.2.2"
+  },
+  "dependencies": {
+    "sinon": "^11.1.1"
   }
 }
