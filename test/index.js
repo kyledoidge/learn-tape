@@ -1,5 +1,6 @@
 const test = require('tape') // assign the tape library to the variable "test"
-const sinon = require("sinon")
+const sinon = require("sinon");
+const { default: axios } = require('axios');
 
 /**
  * Explanations:
@@ -24,13 +25,35 @@ const sinon = require("sinon")
  */
 
 
-function sum (a, b) {
-  return a + b
+class Person {
+  constructor({name, age, gender, country}) {
+    this.name = name
+    this.age = age
+    this.gender = gender
+    this.country = country
+  }
 }
 
-test('sum should return the addition of two numbers', function (t) {
-    sinon.replace()
-    
-  t.equal(3, sum(1, 2)) // make this test pass by completing the add function!
-  t.end()
-});
+
+/**
+ * This is the object we will be testing in various ways
+ * (This would usually be defined in a different file in your production
+ * code, however it is here in this example for simplicity)
+ */
+class API {
+  constructor() {
+    this.person = new Person()
+  }
+  
+  async getPerson() {
+    console.log("Getting person, please wait...")
+    const personInfo = await axios.get("https://randomuser.me/api/").data.results[0]
+    this.person.name = `${personInfo.name.first} ${personInfo.name.last}`
+    this.person.age = personInfo.age
+    this.person.gender = personInfo.gender
+    this.person.country = personInfo.location.country
+  }
+}
+
+
+/** In tape their are no test groups. These groups are defined by the file I guess */
