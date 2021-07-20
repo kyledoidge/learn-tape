@@ -26,7 +26,7 @@ const { default: axios } = require('axios');
 
 
 class Person {
-  constructor({name, age, gender, country}) {
+  constructor({name, age, gender, country} = {}) {
     this.name = name
     this.age = age
     this.gender = gender
@@ -47,13 +47,19 @@ class API {
   
   async getPerson() {
     console.log("Getting person, please wait...")
-    const personInfo = await axios.get("https://randomuser.me/api/").data.results[0]
+    const personInfo = (await axios.get("https://randomuser.me/api/")).data.results[0]
     this.person.name = `${personInfo.name.first} ${personInfo.name.last}`
-    this.person.age = personInfo.age
+    this.person.age = personInfo.dob.age
     this.person.gender = personInfo.gender
     this.person.country = personInfo.location.country
+    return this.person
   }
 }
 
 
 /** In tape their are no test groups. These groups are defined by the file I guess */
+
+const api = new API()
+api.getPerson().then((value) => {
+  console.log(value)
+})
